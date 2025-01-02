@@ -583,3 +583,17 @@ body {
     right: 15px; /* Sağ tarafta konumlandırma */
     cursor: pointer; /* İmleci el işaretine çevir */
 }
+.reset-password {
+    animation: slideUp 0.5s ease-out;
+}
+
+.back-to-login {
+    color: #4299e1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.back-to-login:hover {
+    color: #3182ce;
+}
