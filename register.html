@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <body>
+
+        <div class="snowfall"></div>
+    
+    <!-- Tema değiştirme butonu -->
+    <div class="theme-switch">
+        ...
+    </div>
+        <!-- Tema değiştirme butonu -->
+        <div class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <label for="theme-toggle" class="theme-label">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </label>
+        </div>
+        <!-- Mevcut içerik devam eder... -->
+    <div class="container">
+        <div class="forms-container">
+            <!-- Register Form -->
+            <div class="form-section register">
+                <h2>Kayıt Ol</h2>
+                <p class="form-desc">Yeni bir hesap oluşturun</p>
+                
+                <form>
+                    <div class="input-group">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" placeholder="Adınız">
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" placeholder="Soyadınız">
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" placeholder="E-posta adresiniz" id="emailInput">
+                        <div class="email-suggestions" id="emailSuggestions"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fa-regular fa-lock"></i>
+                        <input type="password" placeholder="Şifre" id="passwordInput">
+                        <i class="fa-regular fa-eye toggle-password"></i>
+                        <div class="password-strength">
+                            <div class="strength-bar"></div>
+                            <div class="strength-text"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Şifre tekrar input grubunu güncelleyelim -->
+<div class="input-group">
+    <i class="fa-regular fa-lock"></i>
+    <input type="password" placeholder="Şifre tekrar" id="confirmPasswordInput">
+    <i class="fa-regular fa-eye toggle-password"></i>
+    <div class="password-match-message"></div>
+</div>
+                    
+                    <button type="submit" class="submit-btn">Kayıt Ol</button>
+                    
+                    <div class="social-login">
+                        <p>Veya şununla devam et</p>
+                        <div class="social-buttons">
+                            <button type="button" class="social-btn google">
+                                <i class="fab fa-google"></i>
+                                Google
+                            </button>
+                            <button type="button" class="social-btn apple">
+                                <i class="fab fa-apple"></i>
+                                Apple
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <p class="switch-form">
+                    Zaten hesabınız var mı? <a href="index.html">Giriş yap</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+function initTheme() {
+    const toggleSwitch = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+
+    toggleSwitch.addEventListener('change', function(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+}
+
+// Sayfa yüklendiğinde tema ayarlarını başlat
+document.addEventListener('DOMContentLoaded', initTheme);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('passwordInput');
+    const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+    const strengthBar = document.querySelector('.strength-bar');
+    const strengthText = document.querySelector('.strength-text');
+
+    // Şifre alanı odaklandığında (focus) güç göstergesini göster
+    passwordInput.addEventListener('focus', function() {
+        strengthBar.style.display = 'block';
+        strengthText.style.display = 'block';
+    });
+
+    // Şifre alanından çıkıldığında (blur) ve şifre tekrar alanına geçildiğinde güç göstergesini gizle
+    passwordInput.addEventListener('blur', function() {
+        if (document.activeElement === confirmPasswordInput) {
+            strengthBar.style.display = 'none';
+            strengthText.style.display = 'none';
+        }
+    });
+
+    // Şifre tekrar alanına odaklanıldığında güç göstergesini gizle
+    confirmPasswordInput.addEventListener('focus', function() {
+        strengthBar.style.display = 'none';
+        strengthText.style.display = 'none';
+    });
+
+    // Mevcut şifre gücü kontrolü kodları...
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const strength = checkPasswordStrength(password);
+        updateStrengthIndicator(strength);
+    });
+
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ... mevcut kodlar ...
+
+    // Şifre eşleşme kontrolü
+    const passwordInput = document.getElementById('passwordInput');
+    const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+    const matchMessage = document.querySelector('.password-match-message');
+
+    confirmPasswordInput.addEventListener('input', function() {
+        if (this.value.length > 0) {
+            if (this.value !== passwordInput.value) {
+                matchMessage.textContent = 'Şifreler uyuşmuyor';
+                matchMessage.style.color = '#ff4747';
+            } else {
+                matchMessage.textContent = '';
+            }
+        } else {
+            matchMessage.textContent = '';
+        }
+    });
+
+    // İlk şifre değiştiğinde de kontrol et
+    passwordInput.addEventListener('input', function() {
+        if (confirmPasswordInput.value.length > 0) {
+            if (this.value !== confirmPasswordInput.value) {
+                matchMessage.textContent = 'Şifreler uyuşmuyor';
+                matchMessage.style.color = '#ff4747';
+            } else {
+                matchMessage.textContent = '';
+            }
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+        // Mevcut şifre görünürlüğü kodu burada kalacak...
+
+        // E-posta önerileri için yeni kod
+        const emailInput = document.getElementById('emailInput');
+        const emailSuggestions = document.getElementById('emailSuggestions');
+        const domains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'icloud.com'];
+
+        emailInput.addEventListener('input', function() {
+            const value = this.value;
+            const atIndex = value.indexOf('@');
+
+            if (atIndex !== -1) {
+                const prefix = value.slice(0, atIndex);
+                let suggestionsHTML = '';
+
+                domains.forEach(domain => {
+                    suggestionsHTML += `<div class="suggestion">${prefix}@${domain}</div>`;
+                });
+
+                emailSuggestions.innerHTML = suggestionsHTML;
+                emailSuggestions.style.display = 'block';
+            } else {
+                emailSuggestions.style.display = 'none';
+            }
+        });
+
+        // Öneriye tıklandığında
+        emailSuggestions.addEventListener('click', function(e) {
+            if (e.target.classList.contains('suggestion')) {
+                emailInput.value = e.target.textContent;
+                emailSuggestions.style.display = 'none';
+            }
+        });
+    });
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.querySelectorAll('.toggle-password');
+            
+            togglePassword.forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    
+                    // Şifre görünürlüğünü değiştir
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.classList.remove('fa-eye');
+                        this.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                    }
+                });
+            });
+
+            // Şifre gücü kontrolü
+            const passwordInput = document.getElementById('passwordInput');
+            const strengthBar = document.querySelector('.strength-bar');
+            const strengthText = document.querySelector('.strength-text');
+
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                const strength = checkPasswordStrength(password);
+                updateStrengthIndicator(strength);
+            });
+
+            function checkPasswordStrength(password) {
+                // Başlangıç puanı
+                let score = 0;
+
+                // Uzunluk kontrolü
+                if (password.length >= 8) score += 1;
+                if (password.length >= 12) score += 1;
+
+                // Karakter çeşitliliği kontrolleri
+                if (/[A-Z]/.test(password)) score += 1; // Büyük harf
+                if (/[a-z]/.test(password)) score += 1; // Küçük harf
+                if (/[0-9]/.test(password)) score += 1; // Rakam
+                if (/[^A-Za-z0-9]/.test(password)) score += 1; // Özel karakter
+
+                // Toplam puana göre güç seviyesi belirleme
+                if (password.length === 0) return 0; // Boş
+                if (score < 3) return 1; // Zayıf
+                if (score < 5) return 2; // Orta
+                return 3; // Güçlü
+            }
+
+            function updateStrengthIndicator(strength) {
+    // Önceki sınıfları temizle
+    strengthBar.classList.remove('weak', 'medium', 'strong');
+    
+    // Güç seviyesine göre görsel güncelleme
+    switch(strength) {
+        case 0:
+            strengthBar.classList.remove('weak', 'medium', 'strong'); // Tüm sınıfları kaldır
+            strengthText.textContent = '';
+            break;
+        case 1:
+            strengthBar.classList.add('weak');
+            strengthText.textContent = 'Zayıf şifre';
+            strengthText.style.color = '#ff4747';
+            break;
+        case 2:
+            strengthBar.classList.add('medium');
+            strengthText.textContent = 'Orta güçte şifre';
+            strengthText.style.color = '#4ca6ff';
+            break;
+        case 3:
+            strengthBar.classList.add('strong');
+            strengthText.textContent = 'Güçlü şifre';
+            strengthText.style.color = '#2ecc71';
+            break;
+    }
+}
+        });
+    </script>
+</body>
+</html>
