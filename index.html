@@ -74,7 +74,57 @@
 </p>
           
     </div>
+    
+    <!-- Şifre Yenileme Formu -->
+    <div class="form-section reset-password" style="display: none;">
+        <h2>Şifre Yenileme</h2>
+        <p class="form-desc">E-posta adresinizi girin, size şifre yenileme bağlantısı gönderelim</p>
+        
+        <form id="resetPasswordForm">
+            <div class="input-group">
+                <i class="fa-regular fa-envelope"></i>
+                <input type="email" placeholder="E-posta adresiniz">
+            </div>
+            
+            <button type="submit" class="submit-btn">Şifre Yenileme Bağlantısı Gönder</button>
+            
+            <p class="switch-form">
+                <a href="#" class="back-to-login">Giriş ekranına dön</a>
+            </p>
+        </form>
+    </div>
+</div>
     <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.querySelector('.login');
+    const resetPasswordForm = document.querySelector('.reset-password');
+    const forgotPasswordLink = document.querySelector('.forgot-password');
+    const backToLoginLink = document.querySelector('.back-to-login');
+    
+    // Şifremi unuttum linkine tıklandığında
+    forgotPasswordLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        resetPasswordForm.style.display = 'block';
+        resetPasswordForm.style.animation = 'slideUp 0.5s ease-out';
+    });
+    
+    // Geri dön linkine tıklandığında
+    backToLoginLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        resetPasswordForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        loginForm.style.animation = 'slideUp 0.5s ease-out';
+    });
+    
+    // Şifre yenileme formu gönderildiğinde
+    document.getElementById('resetPasswordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Burada şifre yenileme mantığını ekleyebilirsiniz
+        alert('Şifre yenileme bağlantısı e-posta adresinize gönderildi!');
+    });
+});
 function initTheme() {
     const toggleSwitch = document.getElementById('theme-toggle');
     const currentTheme = localStorage.getItem('theme');
